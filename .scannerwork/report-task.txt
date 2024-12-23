@@ -1,0 +1,6 @@
+projectKey=commercial
+serverUrl=http://localhost:9000
+serverVersion=24.12.0.100206
+dashboardUrl=http://localhost:9000/dashboard?id=commercial
+ceTaskId=b06c85af-b531-4bef-95cc-e60b167872bc
+ceTaskUrl=http://localhost:9000/api/ce/task?id=b06c85af-b531-4bef-95cc-e60b167872bc

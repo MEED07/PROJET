@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6; /* Amélioration de la lisibilité */
+}
+
+/* Navbar Container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo */
+.navbar .logo img {
+    height: 30px;
+    max-width: 100%; /* S'assure que le logo ne dépasse pas les limites */
+}
+
+/* Navigation Links */
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar ul li a:hover {
+    color: #ffffff;
+    background-color: #005bb5; /* Ajout pour donner un effet visuel constant */
+    box-shadow: 0 4px 15px rgba(0, 119, 255, 0.4);
+}
+
+.navbar ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background-color: #005bb5;
+    transition: width 0.3s ease;
+}
+
+.navbar ul li a:hover::after {
+    width: 100%;
+}
+
+/* Navbar Icons */
+.nav-icons img {
+    height: 20px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.nav-icons img:hover {
+    transform: scale(1.1);
+    filter: brightness(0.8);
+}
+
+/* Login Button */
+.navbar .login-btn {
+    padding: 10px 20px;
+    background-color: #0077ff;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .login-btn:hover {
+    background-color: #005bb5;
+    box-shadow: 0 4px 15px rgba(0, 91, 181, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Mobile Menu Styles */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    height: 3px;
+    width: 25px;
+    background-color: #333;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+/* Navbar transitions */
+.navbar ul {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar ul.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.navbar ul.hide {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 800px) {
+    .navbar ul {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ffffff;
+        width: 100%;
+        padding: 20px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar ul li {
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+        transform: rotate(45deg) translateY(7px);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+        transform: rotate(-45deg) translateY(-7px);
+    }
+
+    .nav-icons {
+        display: none; /* Masquer les icônes sur mobile */
+    }
+}

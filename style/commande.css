@@ -1,0 +1,194 @@
+/* Orders Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.orders-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.orders-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.no-orders i {
+    font-size: 4rem;
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-id {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.client-name {
+    color: #7f8c8d;
+}
+
+.order-date {
+    color: #7f8c8d;
+}
+
+.order-details {
+    display: flex;
+    padding: 20px;
+}
+
+.order-items {
+    flex: 2;
+    padding-right: 20px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 4px;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.item-quantity, 
+.item-price {
+    color: #7f8c8d;
+}
+
+.order-summary {
+    flex: 1;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-item.status {
+    margin-top: 20px;
+}
+
+.status-form {
+    display: flex;
+    align-items: center;
+}
+
+.status-select {
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status-badge.status-0 { background-color: #f1c40f; color: white; }
+.status-badge.status-1 { background-color: #3498db; color: white; }
+.status-badge.status-2 { background-color: #2ecc71; color: white; }
+.status-badge.status-3 { background-color: #2c3e50; color: white; }
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-update {
+    background-color: #2980b9;
+    color: white;
+}
+.btn-delete {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: darkred;
+}
+
+@media (max-width: 768px) {
+    .order-details {
+        flex-direction: column;
+    }
+
+    .order-items, 
+    .order-summary {
+        width: 100%;
+        padding: 10px;
+    }
+}

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;800;900&family=Outfit:wght@100;200;500;600;900&family=Poppins:wght@300;400;500&family=Raleway:wght@600;900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.store {
+    display: flex;
+}
+
+.store img{
+    height: 22px;
+}
+.menu-list{
+    display: flex;
+    justify-content: space-evenly;
+}
+.menu-list ul{
+    list-style: none;
+}
+.store{
+    margin-left: 5rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.menu-items{
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.099);
+}
+.footer p{
+    text-align: center;
+}
+.footer{
+    padding: 20px;
+}
+
+.menuopen{
+    display: none;
+}
+@media only screen and (max-width:600px) {
+    .menuopen{
+        display: block;
+        position: absolute;
+        right: 4%;
+        top: 25%;
+       
+    }
+    .offers p{
+        font-size: 12px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .offers a{
+        font-size: 13px;
+    }
+    
+    .menu-list ul{
+      font-size: 12px;
+      padding: 10px;
+    }
+}
