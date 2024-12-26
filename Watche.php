@@ -6,7 +6,6 @@
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
     <link rel="stylesheet" href="style/P.css">
-    <script defer src="dark-mode.js"></script>
   
 </head>
 <body>
@@ -23,10 +22,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="back-video">
-    <img src="img/Apple-Watch.jpg" style="
-    width: 100%; 
-    height:670px; 
-    ">
+    <img src="images/bigwatch.jpg" alt="">
 </div>
 
 <section class="products-slider">
@@ -280,51 +276,6 @@ const wishlistButtons = document.querySelectorAll('.wishlist-btn');
 
 
 
-<style>
-      /* Dark Mode Styles */
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-body.dark-mode .products-slider {
-    background-color: #121212;
-    color: #ffffff;
-}
-body.dark-mode .slider-heading h3, span  {
-   
-    color: #ffffff;
-}
-body.dark-mode .slider-heading  span  {
-   
-   color: #ffffff;
-}
-body.dark-mode .product-box {
-    background-color:rgb(255, 255, 255);
-    color : rgb(248, 248, 248);
-    
-}
-/* .dark-mode .product-box  data-libelle   {
-    background-color:rgb(238, 230, 230);
-    color : rgb(248, 248, 248); */
-    
-    
-
-
-body.dark-mode .icon .wishlist-btn  {
-    background-color:rgb(255, 255, 255);
-    color :rgb(0, 0, 0);
-}
-body.dark-mode .icon .add-to-cart-btn  {
-    background-color:rgb(255, 255, 255);
-    color :rgb(0, 0, 0);
-}
-
-body.dark-mode a {
-    color: #1e90ff;
-}
-
-
-
-       </style>
+  
 </body>
 </html>

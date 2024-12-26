@@ -117,25 +117,30 @@ if (isset($_SESSION['user_id'])) {
                 <li><a href="Watch.php">Watch</a> </li>
                 <li><a href="AirPods.php">AirPods</a> </li>
                 <li><a href="Support.php">Support</a> </li>
+                <li>
+                    <a href="search.php">
+                    <i class="fa fa-search"></i>
+                    </a>
+                </li>
                 
 
                 <li class="wishlist-lgo" > 
                     <a href="wishlist.php">
                         <i class="fa-solid fa-heart"></i>
-                        <span class="wishlist-count"><?= $wishlist_count ?></span>
+                        <span class="wishlist-count"></span>
                     </a>
                 </li>
 
                 <li class="panier-lgo">
                     <a href="panier.php" class="cart-link">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count"><?= $cart_count ?></span>
+                        <span class="cart-count"></span>
                     </a>
                 </li>
                 <li class="commande-lgo">
                     <a href="commande.php">
                         <i class="fa-sharp-duotone fa-solid fa-truck-ramp-box"></i>
-                        <span class="commande-count">3</span>
+                        <span class="commande-count"></span>
                     </a>
                 </li>
                 <li>

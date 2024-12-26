@@ -91,7 +91,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                  </div>
                  <div style="background: black;" class="card">
                     <span style="color: white;" >LIMITED TIME OFFER</span>
-                    <h1 style="color: white;" >MacBook Air 15. Buy Now</h1>
+                    <h1 style="color: white;" >iPhone 16 Pro . Buy Now</h1>
                     <p style="color: white;">You’ll also save on Apple Pencil, Magic Keyboard for iPad, get 20% off AppleCare+, and more.²</p>
                     <img style="height: 180px;" src="./images/gsmarena_001.jpg" alt="iphone">
                  </div>
@@ -108,8 +108,8 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="section-3">
             <img src="./images/iphone-14-mockup-png-890-download-96223.png" alt="phone">
-            <h1> iphone14
-                iPhone 14 Pro Leather Case <br>
+            <h1> iphone16
+                iPhone 16 Pro Leather Case <br>
                 with MagSafe - Ink
                 </h1>
         </div>

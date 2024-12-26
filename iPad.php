@@ -22,9 +22,22 @@ $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<div class="back-video">
-    <img src="images/phone.jpg" alt="">
+<div class="back-video" style="
+    width: 100%; 
+    height: 670px; 
+    position: relative; 
+    overflow: hidden;background-color:black">
+    <img src="img/Mac.jpg" alt="" style="
+    width: 100%; 
+    height: 90%; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    object-fit: cover">
 </div>
+
+
 
 <section class="products-slider">
     <div class="slider-heading">
@@ -296,7 +309,7 @@ body.dark-mode .slider-heading  span  {
    color: #ffffff;
 }
 body.dark-mode .product-box {
-    background-color: #333333;
+    background-color:rgb(255, 255, 255);
     color : rgb(248, 248, 248);
     
 }
@@ -308,12 +321,12 @@ body.dark-mode .product-box {
 
 
 body.dark-mode .icon .wishlist-btn  {
-    background-color: #333333;
-    color :rgb(248, 248, 248);
+    background-color:rgb(255, 255, 255);
+    color :rgb(0, 0, 0);
 }
 body.dark-mode .icon .add-to-cart-btn  {
-    background-color: #333333;
-    color :rgb(248, 248, 248);
+    background-color:rgb(255, 255, 255);
+    color :rgb(0, 0, 0);
 }
 
 body.dark-mode a {
@@ -322,6 +335,6 @@ body.dark-mode a {
 
 
 
-       </style> 
+       </style>
 </body>
 </html>

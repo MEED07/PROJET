@@ -280,24 +280,35 @@ body.dark-mode .products-slider {
     background-color: #121212;
     color: #ffffff;
 }
-body.dark-mode .slider-heading h3  {
+body.dark-mode .slider-heading h3, span  {
+   
     color: #ffffff;
 }
 body.dark-mode .slider-heading  span  {
+   
    color: #ffffff;
 }
 body.dark-mode .product-box {
-    background-color: #333333;
-    color : rgb(248, 248, 248);   
+    background-color:rgb(255, 255, 255);
+    color : rgb(248, 248, 248);
+    
 }
+
 body.dark-mode .icon .wishlist-btn  {
-    background-color: #333333;
-    color :rgb(248, 248, 248);
+    background-color:rgb(255, 255, 255);
+    color :rgb(0, 0, 0);
 }
 body.dark-mode .icon .add-to-cart-btn  {
-    background-color: #333333;
-    color :rgb(248, 248, 248);
+    background-color:rgb(255, 255, 255);
+    color :rgb(0, 0, 0);
 }
+
+body.dark-mode a {
+    color: #1e90ff;
+}
+
+
+
        </style>
 
 </body>
