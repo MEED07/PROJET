@@ -1,181 +1,264 @@
 <?php
-// Connexion à la base de données
-try {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=ecommerce', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
+include 'include/db.php';
 
 
-$stmtProducts = $pdo->query("SELECT COUNT(*) AS total_products FROM produit");
-$totalProducts = $stmtProducts->fetch()['total_products'];
+$totalProduits = $pdo->query("SELECT COUNT(*) FROM produit")->fetchColumn();
 
 
-$stmtUsers = $pdo->query("SELECT COUNT(*) AS total_users FROM utilisateur");
-$totalUsers = $stmtUsers->fetch()['total_users'];
+$totalUtilisateurs = $pdo->query("SELECT COUNT(*) FROM utilisateur")->fetchColumn();
 
 
-$stmtOrders = $pdo->query("SELECT COUNT(*) AS total_orders FROM commande");
-$totalOrders = $stmtOrders->fetch()['total_orders'];
+$totalCommandes = $pdo->query("SELECT COUNT(*) FROM commande")->fetchColumn();
 
 
-$stmtRevenue = $pdo->query("SELECT SUM(total) AS total_revenue FROM commande WHERE valide = 1");
-$totalRevenue = $stmtRevenue->fetch()['total_revenue'] ?? 0;
+$revenuTotal = $pdo->query("SELECT SUM(total) FROM commande WHERE valide = 1")->fetchColumn() ?? 0;
 
 
-$stmtRecentProducts = $pdo->query("SELECT libelle, prix, date_creation FROM produit ORDER BY date_creation DESC LIMIT 5");
-$recentProducts = $stmtRecentProducts->fetchAll(PDO::FETCH_ASSOC);
-
-$stmtRecentOrders = $pdo->query("SELECT id, total, date_creation FROM commande ORDER BY date_creation DESC LIMIT 5");
-$recentOrders = $stmtRecentOrders->fetchAll(PDO::FETCH_ASSOC);
+$recentOrders = $pdo->query("SELECT * FROM commande ORDER BY date_creation DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
 
 
-$query = "SELECT c.id AS order_id, c.total, c.date_creation, u.login AS client_name, p.libelle AS product_name
-          FROM commande c
-          JOIN utilisateur u ON c.id_client = u.id
-          JOIN ligne_commande lc ON c.id = lc.id_commande
-          JOIN produit p ON lc.id_produit = p.id
-          ORDER BY c.date_creation DESC";
-$statement = $pdo->prepare($query);
-$statement->execute();
-$recentOrders = $statement->fetchAll(PDO::FETCH_ASSOC);
+$recentProducts = $pdo->query("SELECT * FROM produit ORDER BY date_creation DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sql = "
+SELECT p.libelle, SUM(lc.quantite) AS total_achete
+FROM ligne_commande lc
+JOIN produit p ON lc.id_produit = p.id
+GROUP BY lc.id_produit
+ORDER BY total_achete DESC
+LIMIT 1;
+";
+
+
+$sql_clients = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 90%;
-            margin: auto;
-            padding: 20px;
-        }
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 10px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .card h2 {
-            margin: 0 0 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        .admin-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 10px;
-    background-color: #333;
-    padding: 10px;
-}
-.admin-nav ul li a {
-    text-decoration: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-.admin-nav ul li a:hover {
-    background-color: #555;
-}
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="style/dashbordstyle.css?v=<?php echo time(); ?>">
+ 
 </head>
 <body>
-<header>
-    <nav class="admin-nav">
-        <ul>
-            <li><a href="admin.php">Dashboard</a></li>
-            <li><a href="ajouter_categorie.php">Ajouter Categorie</a></li>
-            <li><a href="ajouter_produit.php">Ajouter Produit</a></li>
-            <li><a href="commande.php">Gérer Commandes</a></li>
-            <li><a href="index.php" target="_blank">Voir le site</a></li>
-            <li><a href="logout.php">Déconnexion</a></li>
-        </ul>
-    </nav>
-</header>
+  <div class="container">
+    <aside>
+      <div class="top">
+        <div class="logo">
+          
+        </div>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-sharp">close</span>
+        </div>
+      </div>
+      <div class="sidebar">
+      <a href="admin.php">
+          <span class="material-symbols-sharp">grid_view</span>
+          <h3>Dashbord</h3>
+        </a>
+        <a href="index.php "target="_blank">
+          <span class="material-symbols-sharp">insights</span>
+          <h3>Accueil</h3>
+        </a>
+        
+        <a href="commande.php">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Commande</h3>
+        </a>
+        
+        
+        <a href="ajouter_categorie.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Categorie</h3>
+        </a>
+        <a href="ajouter_produit.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Product</h3>
+        </a>
 
-<div class="container">
-    <h1>Dashboard</h1>
+        <a href="logout.php">
+          <span class="material-symbols-sharp">logout</span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
 
-    <div class="card">
-        <h2>Statistiques Générales</h2>
-        <p><strong>Total Produits :</strong> <?= $totalProducts; ?></p>
-        <p><strong>Total Utilisateurs :</strong> <?= $totalUsers; ?></p>
-        <p><strong>Total Commandes :</strong> <?= $totalOrders; ?></p>
-        <p><strong>Revenu Total :</strong> <?= number_format($totalRevenue, 2, '.', ' '); ?> $</p>
-    </div>
+    <main>
+      <h1>Dashboard</h1>
+    
 
-    <div class="card">
+      <div class="insights">
+        <div class="sales">
+          <span class="material-symbols-sharp">trending_up</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Total Produits</h3>
+              <h1><?php echo $totalProduits; ?></h1>
+            </div>
+            <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number"><p>80%</p></div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="expenses">
+          <span class="material-symbols-sharp">local_mall</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Total Utilisateurs</h3>
+              <h1><?php echo $totalUtilisateurs; ?></h1>
+            </div>
+            <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number"><p>80%</p></div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="income">
+          <span class="material-symbols-sharp">stacked_line_chart</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Total Commandes</h3>
+              <h1><?php echo $totalCommandes; ?></h1>
+            </div>
+            <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number"><p>80%</p></div>
+            </div>
+          </div>
+          
+        </div>
+
+
+        <div class="income">
+          <span class="material-symbols-sharp">stacked_line_chart</span>
+          <div class="middle">
+            <div class="left">
+            <h3>Produit le plus acheté</h3>
+            <h1><?php echo $sql_clients['libelle']; ?></h1>
+            <h3>Quantité achetée</h3>
+            <h1><?php echo $sql_clients['total_achete']; ?></h1>
+            </div>
+            <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              
+            </div>
+          </div>
+        
+        </div>
+
+
+
+
+        <div class="income">
+          <span class="material-symbols-sharp">stacked_line_chart</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Revenu Total</h3>
+              <h1>$<?php echo number_format($revenuTotal, 2); ?></h1>
+            </div>
+            <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number"><p>80%</p></div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="recent_order">
+        <h2>Recent Orders</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($recentOrders as $order): ?>
+              <tr>
+                <td>$<?php echo number_format($order['total'], 2); ?></td>
+                <td><?php echo $order['date_creation']; ?></td>
+                <td><?php echo $order['valide'] ? 'Validée' : 'En attente'; ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="recent_order">
         <h2>Derniers Produits Ajoutés</h2>
         <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Date d'Ajout</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($recentProducts as $product): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($product['libelle']); ?></td>
-                        <td><?= number_format($product['prix'], 2, '.', ' '); ?> $</td>
-                        <td><?= $product['date_creation']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card">
-    <h2>Dernières Commandes</h2>
-    <table>
-        <thead>
+          <thead>
             <tr>
-                
-                <th>Nom du Client</th>
-                <th>Nom du Produit</th>
-                <th>Total</th>
-                <th>Date</th>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prix</th>
+              <th>Date</th>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($recentOrders as $order): ?>
-                <tr>
-                    
-                    <td><?= $order['client_name']; ?></td>
-                    <td><?= $order['product_name']; ?></td>
-                    <td><?= number_format($order['total'], 2, '.', ' '); ?> $</td>
-                    <td><?= $order['date_creation']; ?></td>
-                </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($recentProducts as $product): ?>
+              <tr>
+                <td><?php echo $product['id']; ?></td>
+                <td><?php echo $product['libelle']; ?></td>
+                <td>$<?php echo number_format($product['prix'], 2); ?></td>
+                <td><?php echo $product['date_creation']; ?></td>
+              </tr>
             <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+          </tbody>
+        </table>
+      </div>
 
-</div>
+      <a href="#">Show All</a>
+    </main>
 
+    <div class="right">
+      <div class="top">
+        <button id="menu_bar">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+        <div class="theme-toggler">
+          <span class="material-symbols-sharp active">light_mode</span>
+          <span class="material-symbols-sharp">dark_mode</span>
+        </div>
+        <div class="profile">
+          <div class="info">
+            <p></p>
+            <p>Admin</p>
+          </div>
 
-
+          <div class="profile-photo">
+            <img src="./images/pexels-italo-melo-2379004.jpg" alt="">
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>

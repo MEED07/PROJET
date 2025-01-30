@@ -144,42 +144,84 @@ body {
     visibility: hidden;
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 800px) {
-    .navbar ul {
+.navbar .toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.navbar .toggle span {
+    height: 3px;
+    width: 25px;
+    background-color: #333;
+    margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+    .navbar .menu {
+        display: none;  /* Cache le menu sur les petits écrans */
         flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #ffffff;
+        background-color: #fff;
         width: 100%;
-        padding: 20px 0;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 52px; /* Décalage sous la navbar */
+        left: 0;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        padding: 27px 0;
     }
 
-    .navbar ul li {
-        margin: 15px 0;
+    .navbar .menu.active {
+        display: flex;  /* Affiche le menu lorsque 'active' est ajouté */
+    }
+
+    .navbar .menu li {
         text-align: center;
+        
     }
 
-    .menu-toggle {
+    .navbar .menu a:hover {
+        background-color: #003bb2;
+    }
+
+    .navbar .toggle {
         display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .navbar .toggle i {
+        font-size: 28px;
+    }
+
+    .navbar .logo {
+        display: flex;
+        
         align-items: center;
     }
 
-    .menu-toggle.open span:nth-child(1) {
-        transform: rotate(45deg) translateY(7px);
-    }
-
-    .menu-toggle.open span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .menu-toggle.open span:nth-child(3) {
-        transform: rotate(-45deg) translateY(-7px);
-    }
-
-    .nav-icons {
-        display: none; /* Masquer les icônes sur mobile */
+    /* Menu actif */
+    .navbar .toggle.active .menu {
+        display: flex;
     }
 }
+.dark-mode .navbar {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+.dark-mode .navbar a {
+    color: #ffffff;
+}
+
+.dark-mode .navbar .menu {
+    background-color:  #1c1c1c;
+}
+
+.dark-mode .navbar .menu a {
+    border-bottom: 1px solid #444;
+}
+
+
+

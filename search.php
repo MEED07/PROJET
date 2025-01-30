@@ -141,6 +141,6 @@ include_once "include/nav.php";
     <?php endif; ?>
     </div>
     <?php $conn->close(); 
-    include "include/footer.php"?>
+    ?>
 </body>
 </html>

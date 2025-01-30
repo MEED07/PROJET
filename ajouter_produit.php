@@ -1,14 +1,186 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Ajouter et Afficher Produits</title>
-    <link rel="stylesheet" href="style/ajouter_produit.css">
+    <title>Ajouter et Afficher Catégories</title>
+    <link rel="stylesheet" href="style/dashbordstyle.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.c{
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h4 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formulaire */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table img {
+    border-radius: 5px;
+}
+
+/* Alertes */
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+    </style>
 </head>
 <body>
 <?php
 require_once 'include/db.php';
 ?>
-<div class="container py-2">
+<div class="container">
+    <aside>
+      <div class="top">
+        <div class="logo">
+          
+        </div>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-sharp">close</span>
+        </div>
+      </div>
+      <div class="sidebar">
+
+      
+
+        <a href="admin.php">
+          <span class="material-symbols-sharp">grid_view</span>
+          <h3>Dashbord</h3>
+        </a>
+        <a href="index.php "target="_blank">
+          <span class="material-symbols-sharp">insights</span>
+          <h3>Accueil</h3>
+        </a>
+        
+        <a href="commande.php">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Commande</h3>
+        </a>
+        
+        
+        <a href="ajouter_categorie.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Categorie</h3>
+        </a>
+        <a href="ajouter_produit.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Product</h3>
+        </a>
+
+        <a href="logout.php">
+          <span class="material-symbols-sharp">logout</span>
+          <h3>Logout</h3>
+        </a>
+
+
+        
+        <div class="right">
+      <div class="top">
+        <button id="menu_bar">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+       
+        <div class="profile">
+          
+        </div>
+        
+      </div>
+      
+    </div>
+      </div>
+    </aside>
+<body>
+<?php
+require_once 'include/db.php';
+?>  
+<div class="c py-2" style="width:100%">
     <h4>Ajouter produit</h4>
     <?php
     if (isset($_POST['ajouter'])) {

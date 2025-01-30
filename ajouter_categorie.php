@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <title>Ajouter et Afficher Catégories</title>
+    <link rel="stylesheet" href="style/dashbordstyle.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
     <style>
         body {
     font-family: Arial, sans-serif;
@@ -10,7 +12,7 @@
     padding: 0;
 }
 
-.container {
+.c{
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -114,7 +116,68 @@ table img {
 <?php
 require_once 'include/db.php';
 ?>
-<div class="container py-2">
+<div class="container">
+    <aside>
+      <div class="top">
+        <div class="logo">
+          
+        </div>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-sharp">close</span>
+        </div>
+      </div>
+      <div class="sidebar">
+
+      
+
+        <a href="admin.php">
+          <span class="material-symbols-sharp">grid_view</span>
+          <h3>Dashbord</h3>
+        </a>
+        <a href="index.php "target="_blank">
+          <span class="material-symbols-sharp">insights</span>
+          <h3>Accueil</h3>
+        </a>
+        
+        <a href="commande.php">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Commande</h3>
+        </a>
+        
+        
+        <a href="ajouter_categorie.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Categorie</h3>
+        </a>
+        <a href="ajouter_produit.php">
+          <span class="material-symbols-sharp">add</span>
+          <h3>Add Product</h3>
+        </a>
+
+        <a href="logout.php">
+          <span class="material-symbols-sharp">logout</span>
+          <h3>Logout</h3>
+        </a>
+
+
+        
+        <div class="right">
+      <div class="top">
+        <button id="menu_bar">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+       
+        <div class="profile">
+          
+        </div>
+        
+      </div>
+      
+    </div>
+      </div>
+    </aside>
+
+    <div class="c py-2" style="width:100%">
     <h4>Ajouter Catégorie</h4>
     <?php
     if (isset($_POST['ajouter'])) {
@@ -205,6 +268,6 @@ require_once 'include/db.php';
     }
     ?>
 </div>
-
+<script src="script.js"></script>
 </body>
 </html>

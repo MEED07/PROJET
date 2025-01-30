@@ -73,7 +73,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="available-colors"></div>
                             <div class="buy-price">
                                 <p>From $<?= number_format($product['prix'], 2); ?> or $41.62/mo. for 24 mo. before trade-in*</p>
-                                <a href="#" class="buy-btn">Buy</a>
+                                <a href="#" class="buy-btn" data-product-id="<?= $product['id']; ?>">Buy</a>
                             </div>
                         </a>
                     </div>
@@ -87,7 +87,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- Modal -->
 <div id="productModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">test</span>
+        <span class="close-btn" onclick="closeModal()">x</span>
         <div class="modal-body" style="display: flex; align-items: flex-start;">
             <div class="image-container">
                 <img src="" alt="Produit" id="modal-product-image" class="modal-product-image" style="width: 300px; margin-right: 20px;" />
@@ -96,10 +96,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="product-info">
                 <h2 id="modal-product-name" class="modal-product-name"></h2>
                 <p id="modal-product-description" class="modal-product-description"></p>
-                <p><strong>Price:</strong> $<span id="modal-product-price" class="modal-product-price"></span></p>
-                <p><strong>Year:</strong> <span id="modal-product-year" class="modal-product-year"></span></p>
-                <p><strong>Processor:</strong> <span id="modal-product-processor" class="modal-product-processor"></span></p>
-                <p><strong>Camera:</strong> <span id="modal-product-camera" class="modal-product-camera"></span></p>
+                <p><strong>Price:</strong>250 $<span id="modal-product-price" class="modal-product-price"></span></p>
+                <p><strong>Year:</strong>2024 <span id="modal-product-year" class="modal-product-year"></span></p>
+                <p> <span id="modal-product-processor" class="modal-product-processor"></span></p>
+                <p><span id="modal-product-camera" class="modal-product-camera"></span></p>
                 <button id="modal-buy-btn" class="modal-buy-btn">Buy</button>
                 <button class="wishlist-btn modal-buy-btn" data-product-id="<?= $product['id']; ?>">
                             ajoutez-le 
@@ -281,7 +281,32 @@ const wishlistButtons = document.querySelectorAll('.wishlist-btn');
     });
 });
 
+document.querySelectorAll('.buy-btn').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Empêche le comportement par défaut du lien
 
+        const productId = this.getAttribute('data-product-id'); // Récupérer l'ID du produit
+
+        fetch('add_to_cart.php', {
+            method: 'POST',  // Méthode POST
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Définir le type de contenu
+            },
+            body: 'product_id=' + productId + '&quantity=1'  // Paramètres envoyés : ID du produit et quantité (1)
+        })
+        .then(response => response.json())  // Traiter la réponse en JSON
+        .then(data => {
+            if (data.success) {
+                alert(data.message);  // Afficher un message de succès
+                // Optionnel : mettre à jour l'affichage du panier (nombre d'articles)
+                document.getElementById('cart-count').innerText = data.cart_count;
+            } else {
+                alert(data.message);  // Afficher un message d'erreur
+            }
+        })
+        
+    });
+});
 
     </script>
 

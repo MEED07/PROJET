@@ -74,7 +74,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="available-colors"></div>
                             <div class="buy-price">
                                 <p>From $<?= number_format($product['prix'], 2); ?> or $41.62/mo. for 24 mo. before trade-in*</p>
-                                <a href="#" class="buy-btn">Buy</a>
+                                <a href="#" class="buy-btn" data-product-id="<?= $product['id']; ?>">Buy</a>
                             </div>
                         </a>
                     </div>
@@ -282,7 +282,32 @@ const wishlistButtons = document.querySelectorAll('.wishlist-btn');
     });
 });
 
+document.querySelectorAll('.buy-btn').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Empêche le comportement par défaut du lien
 
+        const productId = this.getAttribute('data-product-id'); // Récupérer l'ID du produit
+
+        fetch('add_to_cart.php', {
+            method: 'POST',  // Méthode POST
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Définir le type de contenu
+            },
+            body: 'product_id=' + productId + '&quantity=1'  // Paramètres envoyés : ID du produit et quantité (1)
+        })
+        .then(response => response.json())  // Traiter la réponse en JSON
+        .then(data => {
+            if (data.success) {
+                alert(data.message);  // Afficher un message de succès
+                // Optionnel : mettre à jour l'affichage du panier (nombre d'articles)
+                document.getElementById('cart-count').innerText = data.cart_count;
+            } else {
+                alert(data.message);  // Afficher un message d'erreur
+            }
+        })
+        
+    });
+});
 
     </script>
 

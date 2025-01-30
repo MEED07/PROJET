@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
-    <link rel="stylesheet" href="style/P.css">
+    <link rel="stylesheet" href="style/P.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="style/index.css">
     <script defer src="dark-mode.js"></script>
 
   
@@ -22,10 +23,19 @@ $stmt = $pdo->prepare($query);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<?php 
+$query = "SELECT * FROM categorie";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <div class="back-video">
-    <img src="images/phone.jpg" alt="">
-</div>
+            <video autoplay loop muted play-inline >
+                <source src="./Videos/y2mate.com - iPhone Xr Official Trailer_1080p(1).mp4"  type="video/mp4">  
+            </video>
+        </div>
+    
 
 <section class="products-slider">
     <div class="slider-heading">
@@ -62,7 +72,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="available-colors"></div>
                             <div class="buy-price">
                                 <p>From $<?= number_format($product['prix'], 2); ?> or $41.62/mo. for 24 mo. before trade-in*</p>
-                                <a href="#" class="buy-btn">Buy</a>
+                                <a href="#" class="buy-btn" data-product-id="<?= $product['id']; ?>">Buy</a>
                             </div>
                         </a>
                     </div>
@@ -85,10 +95,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="product-info"> 
                 <h2 id="modal-product-name" class="modal-product-name"></h2>
                 <p id="modal-product-description" class="modal-product-description"></p>
-                <p><strong>Price:</strong> $<span id="modal-product-price" class="modal-product-price"></span></p>
-                <p><strong>Year:</strong> <span id="modal-product-year" class="modal-product-year"></span></p>
-                <p><strong>Processor:</strong> <span id="modal-product-processor" class="modal-product-processor"></span></p>
-                <p><strong>Camera:</strong> <span id="modal-product-camera" class="modal-product-camera"></span></p>
+                <p><strong>Price:</strong>600 $<span id="modal-product-price" class="modal-product-price"></span></p>
+                <p><strong>Year:</strong> 2024<span id="modal-product-year" class="modal-product-year"></span></p>
+                <p><strong>Processor:</strong>A16 Bionic <span id="modal-product-processor" class="modal-product-processor"></span></p>
+                <p><strong>Camera:</strong>  48 Mpx avec une résolution 4x supérieure<span id="modal-product-camera" class="modal-product-camera"></span></p>
                 <button id="modal-buy-btn" class="modal-buy-btn">Buy</button>
                 <button class="wishlist-btn modal-buy-btn" data-product-id="<?= $product['id']; ?>">
                             ajoutez-le 
@@ -103,6 +113,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+
+       
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
     
@@ -267,6 +279,33 @@ const wishlistButtons = document.querySelectorAll('.wishlist-btn');
         .catch(error => {
             console.error('Error:', error);
         });
+    });
+});
+
+document.querySelectorAll('.buy-btn').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Empêche le comportement par défaut du lien
+
+        const productId = this.getAttribute('data-product-id'); // Récupérer l'ID du produit
+
+        fetch('add_to_cart.php', {
+            method: 'POST',  // Méthode POST
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Définir le type de contenu
+            },
+            body: 'product_id=' + productId + '&quantity=1'  // Paramètres envoyés : ID du produit et quantité (1)
+        })
+        .then(response => response.json())  // Traiter la réponse en JSON
+        .then(data => {
+            if (data.success) {
+                alert(data.message);  // Afficher un message de succès
+                // Optionnel : mettre à jour l'affichage du panier (nombre d'articles)
+                document.getElementById('cart-count').innerText = data.cart_count;
+            } else {
+                alert(data.message);  // Afficher un message d'erreur
+            }
+        })
+        
     });
 });
 </script>

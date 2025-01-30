@@ -63,12 +63,12 @@ if (!empty($_SESSION['panier'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Shopping Cart</title>
-    <link rel="stylesheet" href="style/panier.css">
+    <link rel="stylesheet" href="style/panier.css?v=<?php echo time(); ?>">
     <script defer src="dark-mode.js"></script>
     <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="cart-container">
+    <div class="cart-container"  style="margin-top: 5%;">
         <h1>Your Shopping Cart</h1>
         
         <?php if (empty($cartProducts)): ?>

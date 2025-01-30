@@ -224,32 +224,15 @@ padding:0px;}
 .buy-price .buy-btn{
   width: 100%;
 }
-.back-video {
-width: 100%; 
-overflow: hidden; 
-}
 
-.back-video img {
-width: 100%;
-height: auto;
-display: block;
-
-}
 
 
 }
 .back-video {
 width: 100%; 
-overflow: hidden; 
-
-
 }
 
-.back-video img {
-width: 100%;
-height: auto;
-display: block;
-}
+
 .modal {
   display: none;
   position: fixed;

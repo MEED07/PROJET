@@ -40,7 +40,7 @@ if (isset($_GET['remove']) && is_numeric($_GET['remove'])) {
     
 </head>
 <body>
-    <div class="wishlist-container">
+    <div class="wishlist-container"  style="margin-top: 5%;">
         <h1>My Wishlist</h1>
         
         <?php if (empty($wishlist_products)): ?>
@@ -69,7 +69,7 @@ if (isset($_GET['remove']) && is_numeric($_GET['remove'])) {
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn btn-add-cart">
-                                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                                        <i class="fas fa-shopping-cart"></i> <a href="#" class="buy-btn" data-product-id="<?= $product['id']; ?> " >Add to Cart</a>
                                     </button>
                                     <a href="wishlist.php?remove=<?= $product['id']; ?>" class="btn btn-remove">
                                         <i class="fas fa-trash"></i> Remove
@@ -83,6 +83,10 @@ if (isset($_GET['remove']) && is_numeric($_GET['remove'])) {
         <?php endif; ?>
     </div>
     <style>
+.buy-btn{
+    color:white ;
+    text-decoration: none;
+}
 body.dark-mode {
 background-color: #121212;
 
@@ -95,6 +99,39 @@ color: #ffffff;
 
 color: #ffffff;
 }
+
+
+
     </style>
+
+    <script>
+        document.querySelectorAll('.buy-btn').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Empêche le comportement par défaut du lien
+
+        const productId = this.getAttribute('data-product-id'); // Récupérer l'ID du produit
+
+        fetch('add_to_cart.php', {
+            method: 'POST',  // Méthode POST
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Définir le type de contenu
+            },
+            body: 'product_id=' + productId + '&quantity=1'  // Paramètres envoyés : ID du produit et quantité (1)
+        })
+        .then(response => response.json())  // Traiter la réponse en JSON
+        .then(data => {
+            if (data.success) {
+                alert(data.message);  // Afficher un message de succès
+                // Optionnel : mettre à jour l'affichage du panier (nombre d'articles)
+                document.getElementById('cart-count').innerText = data.cart_count;
+            } else {
+                alert(data.message);  // Afficher un message d'erreur
+            }
+        })
+        
+    });
+});
+    </script>
+    
 </body>
 </html>

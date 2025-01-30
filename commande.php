@@ -1,5 +1,5 @@
 <?php
-include "include/nav.php";
+session_start();
 include "include/db.php";
 
 // Vérifier si l'utilisateur est connecté
@@ -24,6 +24,7 @@ $isAdmin = ($user['role'] === 'admin');
 
 // Récupérer les commandes
 if ($isAdmin) {
+    
     // L'admin voit toutes les commandes
     $stmt = $pdo->query("
         SELECT 
@@ -38,6 +39,7 @@ if ($isAdmin) {
         ORDER BY c.date_creation DESC
     ");
 } else {
+    include "include/navc.php";
     // L'utilisateur voit seulement ses propres commandes
     $stmt = $pdo->prepare("
         SELECT 
@@ -117,7 +119,11 @@ function getOrderDetails($pdo, $orderId) {
     <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="orders-container">
+
+
+
+<div class="orders-container" style="margin-top: 5%;">
+
         <h1><?= $isAdmin ? 'All Orders' : 'My Orders' ?></h1>
 
         <?php if (empty($orders)): ?>

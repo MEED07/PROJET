@@ -12,6 +12,7 @@ body {
     padding: 0;
     background-color: var(--background-color);
     display: flex;
+    
 }
 
 .dashboard-container {
