@@ -122,15 +122,6 @@ if (isset($_SESSION['user_id'])) {
                     <i class="fa fa-search"></i>
                     </a>
                 </li>
-                
-
-                <li class="wishlist-lgo" > 
-                    <a href="wishlist.php">
-                        <i class="fa-solid fa-heart"></i>
-                        <span class="wishlist-count"></span>
-                    </a>
-                </li>
-
                 <li class="panier-lgo">
                     <a href="panier.php" class="cart-link">
                         <i class="fas fa-shopping-cart"></i>
@@ -152,8 +143,8 @@ if (isset($_SESSION['user_id'])) {
 
             
 
-    <?php
-    if (isset($_SESSION['login'])) {
+            <?php
+            if (isset($_SESSION['login'])) {
         
         echo '<button style="background-color:white;">
                 <a href="logout.php" style="text-decoration:none  ; color:black;">logout</a>
