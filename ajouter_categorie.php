@@ -154,6 +154,12 @@ require_once 'include/db.php';
           <h3>Add Product</h3>
         </a>
 
+        <a href="liste_contact.php">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Contact</h3>
+        </a>
+
+
         <a href="logout.php">
           <span class="material-symbols-sharp">logout</span>
           <h3>Logout</h3>
@@ -267,6 +273,7 @@ require_once 'include/db.php';
         echo '<p>Aucune catégorie trouvée.</p>';
     }
     ?>
+    
 </div>
 <script src="script.js"></script>
 </body>

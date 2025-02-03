@@ -48,6 +48,7 @@ $sql_clients = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 <body>
   <div class="container">
     <aside>
+    >
       <div class="top">
         <div class="logo">
           
@@ -81,11 +82,19 @@ $sql_clients = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
           <h3>Add Product</h3>
         </a>
 
+
+        <a href="liste_contact.php">
+          <span class="material-symbols-sharp">receipt_long</span>
+          <h3>Contact</h3>
+        </a>
+
+
         <a href="logout.php">
           <span class="material-symbols-sharp">logout</span>
           <h3>Logout</h3>
         </a>
       </div>
+      
     </aside>
 
     <main>

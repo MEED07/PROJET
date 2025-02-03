@@ -1,17 +1,45 @@
 <?php
+// تضمين الاتصال بقاعدة البيانات
 include "include/db.php";
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // الحصول على البيانات من النموذج ومعالجتها
     $name = htmlspecialchars($_POST["name"]);
     $email = htmlspecialchars($_POST["email"]);
     $phone = htmlspecialchars($_POST["phone"]);
     $issue = htmlspecialchars($_POST["issue"]);
 
-    
-    echo "Thank you, $name. We have received your message!";
+    // استعلام إدراج البيانات في جدول contact
+    $sql = "INSERT INTO contact (name, email, phone, issue) VALUES (:name, :email, :phone, :issue)";
+
+    try {
+        $stmt = $pdo->prepare($sql);
+
+        // ربط القيم مع المتغيرات
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':issue', $issue);
+
+        // تنفيذ الاستعلام
+        if ($stmt->execute()) {
+            // رسالة تنبيه باستخدام JavaScript
+            echo "<script>
+                alert('Thank you, $name. We have received your message!');
+                window.location.href = 'index.php'; // إعادة توجيه إلى index.php
+            </script>";
+            exit();
+        } else {
+            echo "<script>alert('There was an error submitting your message. Please try again.');</script>";
+        }
+    } catch (PDOException $e) {
+        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+    }
 }
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main>
         <section class="form-container">
             <h2>We're here to help</h2>
-            <form action="submit_contact.php" method="post">
+            <form action="contact.php" method="post">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required>
