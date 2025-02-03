@@ -157,19 +157,15 @@ if (isset($_SESSION['user_id'])) {
 
             
 
-    <?php
-    if (isset($_SESSION['login'])) {
-        
-        echo '<button style="background-color:white;">
-                <a href="logout.php" style="text-decoration:none  ; color:black;">logout</a>
-              </button>';
-    } else {
-        
-        echo '<button style="background-color:black; padding:5px        ;">
-                <a href="login.php" style="text-decoration:none; color:white;">login</a>
-              </button>';
-    }
-    ?>
+  
+            <?php
+            if (isset($_SESSION['login'])) {
+                echo '<a href="logout.php" class="login">Logout</a>';
+            } else {
+                echo '<a href="login.php" class="login">Login</a>';
+            }
+            ?>
+    
 </div>
 
 
@@ -190,6 +186,22 @@ if (isset($_SESSION['user_id'])) {
         </script>
 
     <style>
+                .login {
+    display: inline-block;
+    background-color: #005bb5;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login:hover {
+    background-color:rgb(0, 0, 0); /* Bleu plus foncé au survol */
+    transform: scale(1.05);
+}
         .dark-mode .navbar {
         background-color: #1c1c1c;
         color: #ffffff;
