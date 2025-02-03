@@ -3,6 +3,11 @@
 include "include/nav.php";
 include "include/db.php"; 
 
+    // التحقق من وجود رسالة في معلمات URL وعرضها
+    if (isset($_GET['message'])) {
+        echo '<div class="message">' . htmlspecialchars($_GET['message']) . '</div>';
+    }
+    
 $query = "SELECT * FROM categorie";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
@@ -27,6 +32,8 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <body>
+
+
     
     <div class="back-video">
             <video autoplay loop muted play-inline >
