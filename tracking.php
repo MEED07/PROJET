@@ -1,119 +1,151 @@
 <?php
+// هذا الكود مخصص لمعالجة الطلب
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $orderId = $_POST['order_id'] ?? '';
+    $errorMessage = '';
+    $orderDetails = null;
 
-include "include/db.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $order_id = htmlspecialchars($_POST['order-id']);
+    if (!empty($orderId)) {
+        // الاتصال بقاعدة البيانات
+        include "include/db.php";
 
-    if (!empty($order_id)) {
-        echo "<h1>Order Status</h1>";
-        echo "<p>Order ID: " . $order_id . " is being processed.</p>";
+        // استعلام للحصول على تفاصيل الطلب
+        $stmt = $pdo->prepare("
+            SELECT 
+                c.id, 
+                c.valide, 
+                c.total, 
+                c.date_creation, 
+                u.login as client_name 
+            FROM commande c
+            JOIN utilisateur u ON c.id_client = u.id
+            WHERE c.id = ?
+        ");
+        $stmt->execute([$orderId]);
+        $orderDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$orderDetails) {
+            $errorMessage = "Order not found. Please check the order ID.";
+        }
     } else {
-        echo "<p>Error: Order ID is required.</p>";
+        $errorMessage = "Please enter an order ID.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Tracking</title>
-    <link rel="stylesheet" href="tracking.css">
+    <title>Check Order Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .order-form input, .order-form button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .order-form input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .order-form button {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-form button:hover {
+            background: linear-gradient(90deg, #45a049, #4CAF50);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .order-details {
+            margin-top: 20px;
+        }
+        .order-details h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .order-details p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Order Tracking</h1>
-    </header>
-    <main>
-        <section class="content">
-            <h2>Track Your Orders</h2>
-            <p>Stay updated with your orders and delivery status. Simply enter your order ID to get started.</p>
-            <form action="track_order.php" method="post">
-                <div class="form-group">
-                    <label for="order-id">Order ID:</label>
-                    <input type="text" id="order-id" name="order-id" required>
-                </div>
-                <button type="submit" class="btn">Track</button>
-            </form>
-        </section>
-    </main>
-    <style>
-        /* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f5f8fa, #e6edf2);
-    color: #333;
-    padding: 20px;
-    margin: 0;
-}
+    <div class="container">
+        <h1>Check Order Status</h1>
+        <form class="order-form" method="POST">
+            <input 
+                type="text" 
+                name="order_id" 
+                placeholder="Enter Order ID" 
+                value="<?= htmlspecialchars($orderId ?? '') ?>" 
+                required>
+            <button type="submit">Check Status</button>
+        </form>
 
-header {
-    background: linear-gradient(135deg, #28a745, #218838);
-    color: #fff;
-    text-align: center;
-    padding: 30px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+        <?php if (!empty($errorMessage)): ?>
+            <div class="error-message"><?= htmlspecialchars($errorMessage) ?></div>
+        <?php endif; ?>
 
-header h1 {
-    font-size: 3rem;
-    margin: 0;
-}
-
-/* Content Section */
-.content {
-    max-width: 800px;
-    background: #fff;
-    margin: 50px auto;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Form */
-.form-group {
-    margin: 20px 0;
-    text-align: left;
-}
-
-.form-group label {
-    font-size: 1.1rem;
-    color: #333;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-/* Button */
-.btn {
-    text-decoration: none;
-    background: #28a745;
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 25px;
-    transition: background 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background: #218838;
-    transform: scale(1.05);
-}
-
-    </style>
+        <?php if (!empty($orderDetails)): ?>
+            <div class="order-details">
+                <h2>Order Details</h2>
+                <p><strong>Order ID:</strong> <?= htmlspecialchars($orderDetails['id']) ?></p>
+                <p><strong>Client Name:</strong> <?= htmlspecialchars($orderDetails['client_name']) ?></p>
+                <p><strong>Date:</strong> <?= htmlspecialchars($orderDetails['date_creation']) ?></p>
+                <p><strong>Total:</strong> $<?= number_format($orderDetails['total'], 2) ?></p>
+                <p><strong>Status:</strong> 
+                    <?php 
+                        switch ($orderDetails['valide']) {
+                            case 0: echo 'Pending'; break;
+                            case 1: echo 'Processed'; break;
+                            case 2: echo 'Shipped'; break;
+                            case 3: echo 'Delivered'; break;
+                            default: echo 'Unknown';
+                        }
+                    ?>
+                </p>
+            </div>
+        <?php endif; ?>
+    </div>
 </body>
 </html>
